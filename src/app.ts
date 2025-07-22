@@ -6,7 +6,7 @@ const app = express();
 const PORT = process.env.port || 8080;
 
 app.get('/', (req, res) => {
-    res.send('Hello World update nodemon!');
+    res.send(`<h1 style="color: red;">Hello World update nodemon!<h1>`);
 });
 
 app.get('/hoidanit', (req, res) => {
