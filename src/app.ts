@@ -11,7 +11,11 @@ const PORT = process.env.port || 8080;
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
 
+// config routes
 webRoutes(app);
+
+// config static files: images/css/javascript
+app.use(express.static('public')); 
 
 app.listen(PORT, () => {
     console.log(`Example app listening on port ${PORT}`);
