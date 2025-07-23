@@ -8,7 +8,7 @@ const handleCreateUser = (
 
         //return result
 
-        console.log(fullName, email, address);
+        console.log(`create user: ${fullName} - ${email} - ${address}`);
 }
 
 export {
