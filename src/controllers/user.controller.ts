@@ -25,8 +25,16 @@ const postCreateUser = async (req: Request, res: Response) => {
     return res.redirect('/');
 }
 
+const postDeleteUser = async (req: Request, res: Response) => {
+
+    console.log(req.params.id);
+
+    return res.redirect('/');
+}
+
 export{
     getHomePage, 
     getCreateUserPage,
-    postCreateUser
+    postCreateUser, 
+    postDeleteUser
 };

@@ -37,7 +37,10 @@
                             <td> <%= user.email %></td>
                             <td> <%= user.address %></td>
                             <td>
-                                <button class="btn btn-danger">Delete</button>
+                                <form action="/handle-delete-user/<%= user.id %>" method="post">
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                                
                             </td>
                         </tr>
                     <% }) %>
