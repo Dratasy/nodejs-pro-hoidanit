@@ -1,21 +1,22 @@
 import getConnection from 'config/database';
-import { PrismaClient, Prisma } from '@prisma/client'
-import { prisma } from 'config/client';
 
-const handleCreateUser = async (
+const handleCreateUser = async(
     fullName: string,
     email: string,
     address: string) => {
+        //insert into database 
+        const connection = await getConnection();
 
-    const newUser = await prisma.user.create({
-        data: {
-            name: fullName,
-            email: email,
-            address: address
+        try {
+            const sql = 'INSERT INTO `users`(`name`, `email`, `address`) VALUES (?, ?, ?)';
+            const values = [fullName, email, address];
+
+            const [result, fields] = await connection.execute(sql, values);
+            return result;
+        } catch (err) {
+            console.log(err);
+            return [];
         }
-    });
-
-    return newUser;
 }
 
 const getAllUsers = async () => {
@@ -23,7 +24,7 @@ const getAllUsers = async () => {
     // A simple SELECT query
     try {
         const [results, fields] = await connection.query(
-            'SELECT * FROM `User`'
+            'SELECT * FROM `users`'
         );
 
         return results
@@ -44,7 +45,7 @@ const handleDeleteUser = async (id: string) => {
         console.log(err);
         return [];
     }
-
+    
 }
 
 const getUserById = async (id: string) => {
@@ -74,9 +75,9 @@ const updateUserById = async (id: string, fullName: string, email: string, addre
 }
 
 export {
-    handleCreateUser,
+    handleCreateUser, 
     getAllUsers,
-    handleDeleteUser,
+    handleDeleteUser, 
     getUserById,
-    updateUserById
+    updateUserById 
 };
