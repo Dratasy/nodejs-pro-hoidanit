@@ -24,16 +24,13 @@ const getAllUsers = async () => {
 }
 
 const handleDeleteUser = async (id: string) => {
-    try {
-        const connection = await getConnection();
-        const sql = 'DELETE FROM `users` WHERE `id` = ?';
-        const values = [id];
-        const [results, fields] = await connection.execute(sql, values);
-        return results;
-    } catch (err) {
-        console.log(err);
-        return [];
-    }
+    const deletedUser = await prisma.user.delete({
+        where: {
+            id: +id
+        }
+    })
+
+    return deletedUser;
 
 }
 
