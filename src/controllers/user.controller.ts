@@ -3,11 +3,10 @@ import { handleCreateUser, getAllUsers } from '../services/user.service';
 
 const getHomePage = async (req: Request, res: Response) => {
     const users = await getAllUsers();
-    console.log("check users: ", users);
     return res.render(
         'home',
         {
-            name: users
+            users: users,
         }
 
     );
