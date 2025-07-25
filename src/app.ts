@@ -3,6 +3,7 @@ import express from 'express';
 import 'dotenv/config';
 
 import webRoutes from 'routes/web';
+import initDatabase from 'config/seed';
 const app = express();
 const PORT = process.env.port || 8080;
 
@@ -15,11 +16,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // config static files: images/css/javascript
-app.use(express.static('public')); 
+app.use(express.static('public'));
 
 // config routes
 webRoutes(app);
 
+//seeding data
+initDatabase();
 
 app.listen(PORT, () => {
     console.log(`Example app listening on port ${PORT}`);
