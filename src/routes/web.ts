@@ -2,12 +2,15 @@ import express, { Express } from 'express';
 import { getHomePage, getCreateUserPage, postCreateUser, postDeleteUser, getViewUser, postUpdateUser } from 'controllers/user.controller';
 import { getAdminOrderPage, getAdminProductPage, getAdminUserPage, getDashboardPage } from 'controllers/admin/dashboard.controller';
 
+const multer = require('multer')
+const upload = multer({ dest: 'uploads/' })
+
 const router = express.Router();
 
 const webRoutes = (app: Express) => {
     router.get('/', getHomePage);
-    
-    
+
+
     router.post('/handle-delete-user/:id', postDeleteUser)
     router.get('/handle-view-user/:id', getViewUser)
     router.post('/handle-update-user', postUpdateUser)
@@ -16,7 +19,10 @@ const webRoutes = (app: Express) => {
     router.get('/admin', getDashboardPage);
     router.get('/admin/create-user', getCreateUserPage);
     router.get('/admin/user', getAdminUserPage);
-    router.post('/admin/handle-create-user', postCreateUser)
+    // router.post('/admin/handle-create-user', postCreateUser)
+    router.post('/admin/handle-create-user', upload.single('avatar'), (req, res) => {
+        res.send("ok");
+    });
 
     router.get('/admin/product', getAdminProductPage);
     router.get('/admin/order', getAdminOrderPage);
