@@ -10,12 +10,12 @@ const initDatabase = async () => {
                 {
                     username: "hoidanit@gmail.com",
                     password: "123456",
-                    accountType: "admin"
+                    accountType: "SYSTEM"
                 },
                 {
                     username: "admin@gmail.com",
                     password: "123456",
-                    accountType: "admin"
+                    accountType: "SYSTEM"
                 }
             ]
         })
