@@ -40,8 +40,8 @@
                                 <div class="col-6 mx-auto">
                                     <div>
                                         <h5 style="padding: 10px 0;"> View detail a user </h5>
-                                        <form action="/admin/handle-create-user" method="post"
-                                            enctype="multipart/form-data">
+                                        <form action="/admin/update-user" method="post" enctype="multipart/form-data">
+                                            <input types="text" style="display: none;" name="id" value="<%= user.id %>">
                                             <div class="mb-3">
                                                 <label class="form-label">Name:</label>
                                                 <input value="<%= user.fullName %>" name="fullName" type="text"
@@ -50,8 +50,8 @@
 
                                             <div class="mb-3">
                                                 <label class="form-label">Email:</label>
-                                                <input value="<%= user.username %>" name="username" type="email"
-                                                    class="form-control" placeholder="name@example.com">
+                                                <input disabled value="<%= user.username %>" name="username"
+                                                    type="email" class="form-control" placeholder="name@example.com">
                                             </div>
 
                                             <div class="row">
@@ -80,18 +80,25 @@
                                                 <input name="avatar" class="form-control" type="file" id="avatarFile"
                                                     accept=".png, .jpg, .jpeg">
                                             </div>
-                                            <img style="max-height: 250px; display: none;" alt="avatar preview"
-                                                id="avatarPreview" />
-                                            <div class="mb-3">
-                                                <label class="form-label">Address:</label>
-                                                <textarea name="address" class="form-control"
-                                                    rows="2"><%= user.address %></textarea>
-                                            </div>
+                                            <% if (user.avatar) { %>
+                                                <img style="max-height: 250px; display: block;" alt="avatar preview"
+                                                    id="avatarPreview" src="/images/<%= user.avatar %>" />
+                                                <% } else { %>
+                                                    <img style="max-height: 250px; display: none;" alt="avatar preview"
+                                                        id="avatarPreview" />
+                                                    <% } %>
+
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Address:</label>
+                                                            <textarea name="address" class="form-control"
+                                                                rows="2"><%= user.address %></textarea>
+                                                        </div>
 
 
-                                            <div class="mb-3">
-                                                <button type="submit" class="btn btn-warning">Submit</button>
-                                            </div>
+                                                        <div class="mb-3">
+                                                            <button type="submit"
+                                                                class="btn btn-warning">Submit</button>
+                                                        </div>
                                         </form>
                                     </div>
                                 </div>
