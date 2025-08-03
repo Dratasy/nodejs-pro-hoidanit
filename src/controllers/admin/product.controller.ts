@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { createProduct } from 'services/admin/product.service';
 import { ProductSchema, TProductSchema } from 'src/validation/product.shema';
 
 const getAdminCreateProductPage = async (req: Request, res: Response) => {
@@ -6,6 +7,7 @@ const getAdminCreateProductPage = async (req: Request, res: Response) => {
     const oldData = {
         name: "", price: "", detailDesc: "", shortDesc: "", quantity: "", factory: "", target: ""
     }
+     
     return res.render(`admin/product/create.ejs`, {
         errors, oldData
     });
@@ -26,6 +28,9 @@ const postAdminCreateProduct = async (req: Request, res: Response) => {
             errors, oldData
         });
     }
+
+    const image = req?.file?.filename ?? null;
+    await createProduct(name, +price, detailDesc, shortDesc, +quantity, factory, target, image);
 
 
     return res.redirect('/admin/product');
