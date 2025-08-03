@@ -1,6 +1,7 @@
 import * as z from "zod";
 
 const ProductSchema = z.object({
+    id: z.string().optional(),
     name: z.string().trim().min(1, { message: "Tên không được để trống" }),
     price: z.string()
         .transform((val) => (val === "" ? 0 : Number(val)))

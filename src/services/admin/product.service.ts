@@ -32,6 +32,53 @@ const getProductList = async () => {
     return products;
 }
 
+const handleDeleteProduct = async (id: number) => {
+    await prisma.product.delete({
+        where: {
+            id: id
+        }
+    })
+
+}
+
+const getProductById = async (id: number) => {
+    const product = await prisma.product.findUnique({
+        where: {
+            id: id
+        }
+    })
+    return product;
+}
+
+const updateProductById = async (
+    id: number,
+    name: string,
+    price: number,
+    detailDesc: string,
+    shortDesc: string,
+    quantity: number,
+    factory: string,
+    target: string,
+    image: string
+) => {
+    await prisma.product.update({
+        where: {
+            id: id
+        },
+        data: {
+            name: name,
+            price: price,
+            detailDesc: detailDesc,
+            shortDesc: shortDesc,
+            quantity: quantity,
+            factory: factory,
+            target: target,
+            ...(image && { image: image })
+        }
+    })
+
+}
+
 export {
-    createProduct, getProductList
+    createProduct, getProductList, handleDeleteProduct, getProductById, updateProductById
 }
