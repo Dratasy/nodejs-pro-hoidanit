@@ -14,7 +14,7 @@ const webRoutes = (app: Express) => {
     router.get('/', getHomePage);
     router.get('/product/:id', getProductPage);
     router.get('/login', getLoginPage);
-    router.post('/login/', passport.authenticate('local', {
+    router.post('/login', passport.authenticate('local', {
         successRedirect: '/',
         failureRedirect: '/login'
     }));
