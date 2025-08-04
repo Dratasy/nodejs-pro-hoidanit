@@ -24,6 +24,11 @@ webRoutes(app);
 //seeding data
 initDatabase();
 
+//hanle 404 not found
+app.use((req, res) => {
+    res.status(404).send('404 not found');
+})
+
 app.listen(PORT, () => {
     console.log(`Example app listening on port ${PORT}`);
 })
