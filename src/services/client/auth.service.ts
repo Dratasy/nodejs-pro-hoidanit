@@ -42,14 +42,14 @@ const handleLogin = async (username: string, password: string, callback: any) =>
     })
     if (!user) {
         // throw new Error(`Username: ${username} not found`)
-        return callback(null, false, { message: `Username: ${username} not found` });
+        return callback(null, false, { message: `Username/password invalid` });
     }
 
     //compare password
     const isMatch = await comparePassword(password, user.password);
     if (!isMatch) {
         // throw new Error("Password incorrect")
-        return callback(null, false, { message: "Password incorrect" });
+        return callback(null, false, { message: "Username/password invalid" });
     }
     return callback(null, user);
 }
