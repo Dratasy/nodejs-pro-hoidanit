@@ -24,43 +24,51 @@
                                     <h3 class="text-center font-weight-light my-4">Create Account</h3>
                                 </div>
                                 <div class="card-body">
-                                    <form>
-                                        <div class="form-floating mb-3">
-                                            <input class="form-control" type="text" name="fullname"
-                                                placeholder="fullName..." />
-                                            <label>Fullname</label>
+                                    <% errors.forEach(error=> { %>
+                                        <div class="alert alert-danger mb-3">
+                                            <%= error %>
                                         </div>
-                                        <div class="form-floating mb-3">
-                                            <input class="form-control" type="email" name="username"
-                                                placeholder="Email..." />
-                                            <label>Email address</label>
-                                        </div>
-                                        <div class="row mb-3">
-                                            <div class="col-md-6">
-                                                <div class="form-floating mb-3 mb-md-0">
-                                                    <input class="form-control" name="password" type="password"
-                                                        placeholder="Password..." />
-                                                    <label>Password</label>
+                                        <% }) %>
+
+                                            <form method="post" action="/register">
+                                                <div class="form-floating mb-3">
+                                                    <input value="<%= oldData.fullName %>" class="form-control"
+                                                        type="text" name="fullName" placeholder="fullName..." />
+                                                    <label>Fullname</label>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-floating mb-3 mb-md-0">
-                                                    <input class="form-control" name="confirmPassword" type="password"
-                                                        placeholder="Confirm password..." />
-                                                    <label>Confirm Password</label>
+                                                <div class="form-floating mb-3">
+                                                    <input value="<%= oldData.username %>" class="form-control"
+                                                        type="email" name="username" placeholder="Email..." />
+                                                    <label>Email address</label>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="mt-4 mb-0">
-                                            <div class="d-grid">
-                                                <button class="btn btn-primary btn-block w-100">Create
-                                                    Account</button>
-                                            </div>
-                                        </div>
-                                    </form>
+                                                <div class="row mb-3">
+                                                    <div class="col-md-6">
+                                                        <div class="form-floating mb-3 mb-md-0">
+                                                            <input value="<%= oldData.password %>" class="form-control"
+                                                                name="password" type="password"
+                                                                placeholder="Password..." />
+                                                            <label>Password</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-floating mb-3 mb-md-0">
+                                                            <input value="<%= oldData.confirmPassword %>"
+                                                                class="form-control" name="confirmPassword"
+                                                                type="password" placeholder="Confirm password..." />
+                                                            <label>Confirm Password</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="mt-4 mb-0">
+                                                    <div class="d-grid">
+                                                        <button class="btn btn-primary btn-block w-100">Create
+                                                            Account</button>
+                                                    </div>
+                                                </div>
+                                            </form>
                                 </div>
                                 <div class="card-footer text-center py-3">
-                                    <div class="small"><a href="login.html">Have an account? Go to login</a></div>
+                                    <div class="small"><a href="/login">Have an account? Go to login</a></div>
                                 </div>
                             </div>
                         </div>
