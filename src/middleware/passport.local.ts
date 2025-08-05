@@ -1,6 +1,7 @@
 import passport, { use } from "passport"
 import { Strategy as LocalStrategy } from "passport-local"
 import { handleLogin } from "services/client/auth.service";
+import { getUserById } from "services/user.service";
 
 const configPassportLocal = () => {
     passport.use(new LocalStrategy(
@@ -14,19 +15,15 @@ const configPassportLocal = () => {
             console.log(">>>> check username/password: ", username, password);
             handleLogin(username, password, callback);
         }));
-    passport.serializeUser(function (user: any, cb) {
-        process.nextTick(function () {
-            return cb(null, {
-                id: user.id,
-                username: user.username
-            });
-        });
+
+    passport.serializeUser(function (user: any, callback) {
+        callback(null, { id: user.id, username: user.username });
     });
 
-    passport.deserializeUser(function (user, cb) {
-        process.nextTick(function () {
-            return cb(null, user);
-        });
+    passport.deserializeUser(async function (user: any, callback) {
+        const { id, username } = user;
+        const userInDb = await getUserById(id);
+        callback(null, { ...userInDb });
     });
 }
 
