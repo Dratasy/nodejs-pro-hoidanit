@@ -38,12 +38,22 @@ const postRegister = async (req: Request, res: Response) => {
     }
 
     await registerNewUser(fullName, username, password);
-    res.render('client/auth/login')
+    return res.redirect('/login')
+}
+
+const getSuccessRedirectPage = (req: Request, res: Response) => {
+    const user = req.user as any;
+
+    if (user?.role?.name === "ADMIN") {
+        res.redirect('/admin');
+    }
+    else res.redirect('/');
 }
 
 export {
     getLoginPage,
     getRegisterPage,
-    postRegister
+    postRegister,
+    getSuccessRedirectPage
 }
 
