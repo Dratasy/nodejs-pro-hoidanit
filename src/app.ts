@@ -63,7 +63,7 @@ initDatabase();
 
 //hanle 404 not found
 app.use((req, res) => {
-    res.status(404).send('404 not found');
+    res.render("status/404")
 })
 
 app.listen(PORT, () => {
