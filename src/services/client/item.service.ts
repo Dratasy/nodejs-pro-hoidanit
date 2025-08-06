@@ -30,6 +30,45 @@ const AddProductToCart = async (quantity: number, productId: number, user: Expre
 
     if (cart) {
         //update
+        //cap nhat sum gio hang
+        await prisma.cart.update({
+            where: {
+                id: cart.id
+            },
+            data: {
+                sum: {
+                    increment: quantity
+                }
+            }
+        })
+
+        const currentCartDetail = await prisma.cartDetail.findFirst({
+            where: {
+                productId: productId,
+                cartId: cart.id
+            }
+        })
+
+        //cap nhat cart detail 
+        //neu chua co -> tao moi, co roi -> cap nhat quantity
+        await prisma.cartDetail.upsert({
+            where: {
+                id: currentCartDetail?.id ?? 0
+            },
+            update: {
+                quantity: {
+                    increment: quantity
+                }
+            },
+            create: {
+                quantity: quantity,
+                price: product.price,
+                productId: productId,
+                cartId: cart.id
+            }
+
+        })
+
     }
     else {
         //create
