@@ -139,7 +139,20 @@ const deleteProductInCart = async (cardDetailId: number, user: Express.User, sum
     }
 }
 
+const updateCartDetailBeforeCheckout = async (data: { id: string, quantity: string }[]) => {
+    for (let i = 0; i < data.length; i++) {
+        await prisma.cartDetail.update({
+            where: {
+                id: +data[i].id
+            },
+            data: {
+                quantity: +data[i].quantity
+            }
+        })
+    }
+}
+
 export {
     getProducts, getProductById, AddProductToCart, getProductInCart,
-    deleteProductInCart
+    deleteProductInCart, updateCartDetailBeforeCheckout
 }
