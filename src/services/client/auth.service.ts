@@ -49,6 +49,15 @@ const getUserWithRoleById = async (id: string) => {
     return user;
 }
 
+const getUserSumCart = async (id: string) => {
+    const card = await prisma.cart.findUnique({
+        where: {
+            userId: +id
+        }
+    })
+    return card?.sum ?? 0;
+}
+
 const handleLogin = async (username: string, password: string, callback: any) => {
     //check user exist in database
     const user = await prisma.user.findUnique({
@@ -74,5 +83,6 @@ export {
     isEmailExist,
     registerNewUser,
     handleLogin,
-    getUserWithRoleById
+    getUserWithRoleById,
+    getUserSumCart
 }
