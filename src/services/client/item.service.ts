@@ -112,6 +112,34 @@ const getProductInCart = async (userId: number) => {
     return [];
 }
 
+const deleteProductInCart = async (cardDetailId: number, user: Express.User, sumCart: number) => {
+    await prisma.cartDetail.delete({
+        where: {
+            id: cardDetailId
+        }
+    })
+
+    if (sumCart === 1) {
+        await prisma.cart.delete({
+            where: {
+                userId: user.id
+            }
+        })
+    } else {
+        await prisma.cart.update({
+            where: {
+                userId: user.id
+            },
+            data: {
+                sum: {
+                    decrement: 1
+                }
+            }
+        })
+    }
+}
+
 export {
-    getProducts, getProductById, AddProductToCart, getProductInCart
+    getProducts, getProductById, AddProductToCart, getProductInCart,
+    deleteProductInCart
 }
