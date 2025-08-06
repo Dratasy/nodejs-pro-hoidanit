@@ -1,8 +1,8 @@
-import { User, Role } from "prisma/prisma-client"
+import { User as UserPrisma, Role } from "prisma/prisma-client"
 
 declare global {
     namespace Express {
-        interface User extends User {
+        interface User extends UserPrisma {
             role?: Role;
         }
     }

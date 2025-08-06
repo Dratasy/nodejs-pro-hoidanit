@@ -12,7 +12,7 @@ const configPassportLocal = () => {
                 session.messages = [];
             }
 
-            console.log(">>>> check username/password: ", username, password);
+            console.log(">>> check username/password: ", username, password);
             handleLogin(username, password, callback);
         }));
 
@@ -23,7 +23,7 @@ const configPassportLocal = () => {
     passport.deserializeUser(async function (user: any, callback) {
         const { id, username } = user;
         const userInDb = await getUserWithRoleById(id);
-        callback(null, { ...userInDb });
+        callback(null, { ...userInDb as any });
     });
 }
 
