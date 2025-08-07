@@ -113,6 +113,13 @@ const getProductInCart = async (userId: number) => {
 }
 
 const deleteProductInCart = async (cardDetailId: number, user: Express.User, sumCart: number) => {
+    const currentCartDetail = await prisma.cartDetail.findUnique({
+        where: {
+            id: cardDetailId
+        }
+    })
+    const quantity = currentCartDetail.quantity;
+
     await prisma.cartDetail.delete({
         where: {
             id: cardDetailId
@@ -132,7 +139,7 @@ const deleteProductInCart = async (cardDetailId: number, user: Express.User, sum
             },
             data: {
                 sum: {
-                    decrement: 1
+                    decrement: quantity
                 }
             }
         })
