@@ -21,11 +21,15 @@ const getProductFilterPage = async (req: Request, res: Response) => {
     if (currentPage <= 0) currentPage = 1;
     const totalPages = await countTotalProductClientPages(6);
     const products = await getProducts(currentPage, 6);
-    return res.render("client/home/filter.ejs", {
-        products,
-        totalPages: +totalPages,
-        page: +currentPage
-    });
+    // return res.render("client/home/filter.ejs", {
+    //     products,
+    //     totalPages: +totalPages,
+    //     page: +currentPage
+    // });
+
+    res.status(200).json({
+        data: products
+    })
 }
 
 
