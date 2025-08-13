@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { getDashboardInfo } from 'services/admin/dashboard.service';
-import { getOrderAdmin, getOrderDetailAdmin } from 'services/admin/order.service';
-import { getProductList } from 'services/admin/product.service';
+import { countTotalOrderPages, getOrderAdmin, getOrderDetailAdmin } from 'services/admin/order.service';
+import { countTotalProductPages, getProductList } from 'services/admin/product.service';
 import { getAllUsers, getTotalUserPages } from 'services/user.service';
 
 const getDashboardPage = async (req: Request, res: Response) => {
@@ -23,27 +23,42 @@ const getAdminUserPage = async (req: Request, res: Response) => {
     return res.render('admin/user/show.ejs', {
         users: users,
         totalPages: +totalPages,
-        page: +page
+        page: +currentPage
     });
 }
 
 const getAdminProductPage = async (req: Request, res: Response) => {
-    const products = await getProductList();
+    const { page } = req.query;
+
+    let currentPage = page ? +page : 1;
+    if (currentPage <= 0) {
+        currentPage = 1;
+    }
+
+    const products = await getProductList(currentPage);
+    const totalPages = await countTotalProductPages();
     return res.render('admin/product/show.ejs', {
-        products: products
+        products: products,
+        totalPages: +totalPages,
+        page: +currentPage
     });
 }
+
+
 
 const getAdminOrderPage = async (req: Request, res: Response) => {
-    const orders = await getOrderAdmin();
+    const { page } = req.query;
+    let currentPage = page ? +page : 1;
+    if (currentPage <= 0) currentPage = 1;
 
-    return res.render('admin/order/show.ejs', {
-        orders
+    const orders = await getOrderAdmin(currentPage);
+    const totalPages = await countTotalOrderPages();
+    return res.render("admin/order/show.ejs", {
+        orders,
+        totalPages: +totalPages,
+        page: +currentPage
     });
 }
-
-
-
 const getAdminOrderDetailPage = async (req: Request, res: Response) => {
     const { id } = req.params;
     const orderDetails = await getOrderDetailAdmin(+id);
