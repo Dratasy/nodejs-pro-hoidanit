@@ -22,36 +22,12 @@ const getProductFilterPage = async (req: Request, res: Response) => {
     if (currentPage <= 0) currentPage = 1;
     const totalPages = await countTotalProductClientPages(6);
 
-    //const products = await getProducts(currentPage, 6);
-    // return res.render("client/home/filter.ejs", {
-    //     products,
-    //     totalPages: +totalPages,
-    //     page: +currentPage
-    // });
-
-    const { username } = req.query;
-    const users = await userFilter(username as string);
-
-    const { minPrice, maxPrice, factory, price, sort } = req.query;
-    //yêu cầu 1
-    // const products = await yeucau1(+minPrice);
-    //yêu cầu 2
-    // const products = await yeucau2(+maxPrice);
-    //yêu cầu 3
-    // const products = await yeucau3(factory as string);
-    //yêu cầu 4
-    // const products = await yeucau4((factory as string).split(","));
-
-
-    //yêu cầu 5
-    // const products = await yeucau5(10000000, 15000000);
-    //yêu cầu 6
-    // const products = await yeucau6();
-    //yêu cầu 7
-    const products = await yeucau7();
-    res.status(200).json({
-        data: products
-    })
+    const products = await getProducts(currentPage, 6);
+    return res.render("client/home/filter.ejs", {
+        products,
+        totalPages: +totalPages,
+        page: +currentPage
+    });
 
 }
 
