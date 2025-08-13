@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { countTotalProductClientPages, getProducts } from 'services/client/item.service';
-import { userFilter } from 'services/client/product.filter';
+import { userFilter, yeucau1, yeucau2, yeucau3, yeucau4, yeucau5, yeucau6, yeucau7 } from 'services/client/product.filter';
 import { handleCreateUser, getAllUsers, handleDeleteUser, getUserById, updateUserById, getAllRoles } from 'services/user.service';
 
 const getHomePage = async (req: Request, res: Response) => {
@@ -31,9 +31,28 @@ const getProductFilterPage = async (req: Request, res: Response) => {
 
     const { username } = req.query;
     const users = await userFilter(username as string);
+
+    const { minPrice, maxPrice, factory, price, sort } = req.query;
+    //yêu cầu 1
+    // const products = await yeucau1(+minPrice);
+    //yêu cầu 2
+    // const products = await yeucau2(+maxPrice);
+    //yêu cầu 3
+    // const products = await yeucau3(factory as string);
+    //yêu cầu 4
+    // const products = await yeucau4((factory as string).split(","));
+
+
+    //yêu cầu 5
+    // const products = await yeucau5(10000000, 15000000);
+    //yêu cầu 6
+    // const products = await yeucau6();
+    //yêu cầu 7
+    const products = await yeucau7();
     res.status(200).json({
-        data: users
+        data: products
     })
+
 }
 
 
