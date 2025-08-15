@@ -5,6 +5,15 @@ const handleGetAllUser = async () => {
     return await prisma.user.findMany();
 }
 
+const handleGetUserById = async (id: number) => {
+    return await prisma.user.findUnique({
+        where: {
+            id: id
+        }
+    });
+}
+
 export {
-    handleGetAllUser
+    handleGetAllUser,
+    handleGetUserById
 }
