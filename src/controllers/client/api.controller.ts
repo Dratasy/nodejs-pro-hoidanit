@@ -2,6 +2,8 @@ import { AddProductToCart } from "services/client/item.service";
 import { Request, Response } from 'express'
 import exp from "constants";
 import { handleGetAllUser, handleGetUserById } from "services/client/api.service";
+import { RegisterSchema, TRegisterSchema } from "src/validation/register.schema";
+import { registerNewUser } from "services/client/auth.service";
 
 const postAddProductToCartAPI = async (req: Request, res: Response) => {
     const { quantity, productId } = req.body;
@@ -31,8 +33,29 @@ const getUserByIdApi = async (req: Request, res: Response) => {
     })
 }
 
+const createUserApi = async (req: Request, res: Response) => {
+    const { fullName, username, password } = req.body as TRegisterSchema;
+
+    const validate = await RegisterSchema.safeParseAsync(req.body);
+    if (!validate.success) {
+        const errorsZod = validate.error.issues;
+        const errors = errorsZod?.map(item => `${item.path[0]}: ${item.message}`);
+
+        res.status(400).json({
+            errors: errors
+        })
+        return;
+    }
+
+    await registerNewUser(fullName, username, password);
+
+    res.status(201).json({
+        data: "create user succeed"
+    })
+}
 
 export {
     postAddProductToCartAPI, getAllUsersApi,
-    getUserByIdApi
+    getUserByIdApi,
+    createUserApi
 }

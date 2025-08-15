@@ -22,15 +22,21 @@ const registerNewUser = async (fullName: string, username: string, password: str
         }
     })
 
-    await prisma.user.create({
-        data: {
-            fullName: fullName,
-            username: username,
-            password: newPassword,
-            accountType: ACCOUNT_TYPE.SYSTEM,
-            roleId: userRole?.id
-        }
-    });
+    if (userRole) {
+        await prisma.user.create({
+            data: {
+                fullName: fullName,
+                username: username,
+                password: newPassword,
+                accountType: ACCOUNT_TYPE.SYSTEM,
+                roleId: userRole?.id
+            }
+        });
+    }
+    else {
+        throw new Error("User role khong ton tai");
+    }
+
 }
 
 
