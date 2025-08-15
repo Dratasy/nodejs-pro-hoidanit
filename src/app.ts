@@ -12,9 +12,14 @@ import session from 'express-session';
 import { PrismaSessionStore } from '@quixo3/prisma-session-store';
 import { PrismaClient } from '@prisma/client';
 import apiRoutes from 'routes/api';
+import cors from 'cors';
+
 
 const app = express();
 const PORT = process.env.port || 8080;
+
+//config
+app.use(cors());
 
 // view engine setup
 app.set('view engine', 'ejs');
