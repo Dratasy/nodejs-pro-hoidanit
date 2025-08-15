@@ -1,5 +1,5 @@
 
-import { createUserApi, deleteUserByIdApi, getAllUsersApi, getUserByIdApi, loginAPI, postAddProductToCartAPI, updateUserByIdApi } from 'controllers/client/api.controller';
+import { createUserApi, deleteUserByIdApi, fetchAccountAPI, getAllUsersApi, getUserByIdApi, loginAPI, postAddProductToCartAPI, updateUserByIdApi } from 'controllers/client/api.controller';
 import { create } from 'domain';
 import express, { Express } from 'express';
 import { getUserById } from 'services/user.service';
@@ -10,7 +10,7 @@ const router = express.Router();
 const apiRoutes = (app: Express) => {
     router.post("/add-product-to-cart", postAddProductToCartAPI);
 
-    router.get("/users", checkValidJwt, getAllUsersApi);
+    router.get("/users", getAllUsersApi);
     router.get("/users/:id", getUserByIdApi);
     router.post("/users", createUserApi);
     router.put("/users/:id", updateUserByIdApi);
@@ -18,7 +18,9 @@ const apiRoutes = (app: Express) => {
 
     router.post('/login', loginAPI);
 
-    app.use("/api", router);
+    router.get("/account", fetchAccountAPI);
+
+    app.use("/api", checkValidJwt, router);
 
 }
 export default apiRoutes;

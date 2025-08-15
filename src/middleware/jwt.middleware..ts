@@ -3,6 +3,18 @@ import jwt from "jsonwebtoken";
 import "dotenv/config";
 
 const checkValidJwt = async (req: Request, res: Response, next: NextFunction) => {
+    const path = req.path;
+    const whiteList = [
+        "/add-product-to-cart",
+        "/login"
+    ];
+
+    const isWhiteList = whiteList.some(route => route === path);
+    if (isWhiteList) {
+        next();
+        return;
+    }
+
     const token = req.headers['authorization']?.split(' ')[1];
 
     try {
@@ -16,7 +28,8 @@ const checkValidJwt = async (req: Request, res: Response, next: NextFunction) =>
             phone: "",
             accountType: dataDecoded.accountType,
             avatar: dataDecoded.avatar,
-            roleId: dataDecoded.roleId
+            roleId: dataDecoded.roleId,
+            role: dataDecoded.role
         }
 
         next();
