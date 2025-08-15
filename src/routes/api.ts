@@ -1,5 +1,5 @@
 
-import { createUserApi, getAllUsersApi, getUserByIdApi, postAddProductToCartAPI, updateUserByIdApi } from 'controllers/client/api.controller';
+import { createUserApi, deleteUserByIdApi, getAllUsersApi, getUserByIdApi, postAddProductToCartAPI, updateUserByIdApi } from 'controllers/client/api.controller';
 import { create } from 'domain';
 import express, { Express } from 'express';
 import { getUserById } from 'services/user.service';
@@ -13,6 +13,7 @@ const apiRoutes = (app: Express) => {
     router.get("/users/:id", getUserByIdApi);
     router.post("/users", createUserApi);
     router.put("/users/:id", updateUserByIdApi);
+    router.delete("/users/:id", deleteUserByIdApi);
 
     app.use("/api", router);
 
