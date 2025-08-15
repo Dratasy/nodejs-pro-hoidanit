@@ -1,10 +1,32 @@
 import { NextFunction, Request, Response } from "express";
+import jwt from "jsonwebtoken";
+import "dotenv/config";
 
-const checkValidJwt = async (req: any, res: any, next: any) => {
+const checkValidJwt = async (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers['authorization']?.split(' ')[1];
-    console.log(token)
 
-    next();
+    try {
+        const dataDecoded: any = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = {
+            id: dataDecoded.id,
+            username: dataDecoded.email,
+            password: "",
+            fullName: "",
+            address: "",
+            phone: "",
+            accountType: dataDecoded.accountType,
+            avatar: dataDecoded.avatar,
+            roleId: dataDecoded.roleId
+        }
+
+        next();
+    } catch (error) {
+        console.log(error)
+        res.status(401).json({
+            data: null,
+            message: "Token khong hop le (khong truyen len token hoac token het han)"
+        })
+    }
 
 }
 

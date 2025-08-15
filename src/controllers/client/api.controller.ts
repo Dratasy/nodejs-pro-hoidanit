@@ -19,6 +19,9 @@ const postAddProductToCartAPI = async (req: Request, res: Response) => {
 
 const getAllUsersApi = async (req: Request, res: Response) => {
     const users = await handleGetAllUser();
+    const user = req.user;
+    console.log(">>> check user: ", user);
+
     res.status(200).json({
         data: users
     })
