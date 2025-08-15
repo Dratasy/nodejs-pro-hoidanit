@@ -1,5 +1,6 @@
 import { prisma } from "config/client"
-
+import { comparePassword } from "services/user.service";
+import jwt from "jsonwebtoken";
 
 const handleGetAllUser = async () => {
     return await prisma.user.findMany();
@@ -34,9 +35,39 @@ const handleDeleteUserById = async (id: number) => {
     })
 }
 
+const handleUserLogin = async (username: string, password: string) => {
+    //check user exist in database
+    const user = await prisma.user.findUnique({
+        where: {
+            username: username
+        }
+    })
+    if (!user) {
+        throw new Error(`Username: ${username} not found`)
+
+    }
+
+    //compare password
+    const isMatch = await comparePassword(password, user.password);
+    if (!isMatch) {
+        throw new Error("Password incorrect")
+    }
+
+    //co user login -> dinh nghia access token
+    const payload = {
+        id: 1,
+        name: "Hoidanit"
+    }
+    const access_token = jwt.sign(payload, "eric", {
+        expiresIn: "1d"
+    })
+    return access_token;
+}
+
 export {
     handleGetAllUser,
     handleGetUserById,
     handleUpdateUserById,
-    handleDeleteUserById
+    handleDeleteUserById,
+    handleUserLogin
 }

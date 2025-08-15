@@ -1,7 +1,7 @@
 import { AddProductToCart } from "services/client/item.service";
 import { Request, Response } from 'express'
 import exp from "constants";
-import { handleDeleteUserById, handleGetAllUser, handleGetUserById, handleUpdateUserById } from "services/client/api.service";
+import { handleDeleteUserById, handleGetAllUser, handleGetUserById, handleUpdateUserById, handleUserLogin } from "services/client/api.service";
 import { RegisterSchema, TRegisterSchema } from "src/validation/register.schema";
 import { registerNewUser } from "services/client/auth.service";
 
@@ -78,10 +78,31 @@ const deleteUserByIdApi = async (req: Request, res: Response) => {
     })
 }
 
+const loginAPI = async (req: Request, res: Response) => {
+    const { username, password } = req.body;
+    try {
+        const access_token = await handleUserLogin(username, password);
+        res.status(200).json({
+            data: {
+                access_token
+            }
+        })
+    } catch (error) {
+        res.status(401).json({
+            data: null,
+            message: error.message
+        })
+    }
+
+}
+
+
+
 export {
     postAddProductToCartAPI, getAllUsersApi,
     getUserByIdApi,
     createUserApi,
     updateUserByIdApi,
-    deleteUserByIdApi
+    deleteUserByIdApi,
+    loginAPI
 }
